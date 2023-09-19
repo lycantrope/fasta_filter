@@ -6,8 +6,6 @@ The FASTA Filter CLI Tools crate is a command-line utility designed for filterin
 
 ## Usage
 
-## Usage
-
 To utilize this crate, ensure that you have [Rust](https://www.rust-lang.org/tools/install) installed on your system. You can execute the crate via the command line using the following syntax:
 
 ```bash
