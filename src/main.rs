@@ -35,22 +35,31 @@ fn main() -> anyhow::Result<()> {
 
     let mut reader = Reader::new(cli.input.as_bytes());
     let mut stdout = io::stdout();
+    let mut cmd = Cli::command();
 
     let regex_matcher: Arc<[Regex]> = cli
         .terms
         .into_iter()
-        .filter_map(|re| {
+        .map(|re| {
             let re = re.trim();
+
             if re.is_empty() {
-                None
+                cmd.error(ErrorKind::InvalidValue, "Empty regex expression")
+                    .exit()
+            }
+            if let Ok(re) = Regex::new(re) {
+                re
             } else {
-                Regex::new(re).ok()
+                cmd.error(
+                    ErrorKind::InvalidValue,
+                    format!("Invalid regex expression: {}", re),
+                )
+                .exit();
             }
         })
         .collect();
 
     if regex_matcher.is_empty() {
-        let mut cmd = Cli::command();
         cmd.error(
             ErrorKind::MissingRequiredArgument,
             "No terminolgy was provided.",
