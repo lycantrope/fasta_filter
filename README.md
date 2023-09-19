@@ -14,7 +14,7 @@ To utilize this crate, ensure that you have [Rust](https://www.rust-lang.org/too
 cargo run -r -- <FASTA file> [Search term]... [--output <output file>]
 ```
 
-Alternatively, you can install this crate as a binary executable. After installation, you can run your commands using the `fasta_filter` command:
+Alternatively, you can install this crate as a executable binary. After installation, you can run your commands using the `fasta_filter` command:
 
 ```bash
 cargo install --git https://github.com/lycantrope/fasta_filter
@@ -50,7 +50,7 @@ Here are some example usages of the crate:
     cat input.fa.gz | gzip -d | cargo run -r -- - unc dpy --output output.fa
     ```
 
-**Note**: Replace `cargo run -r --` with `fasta_filter` if you are running from an installed executable.
+**Note**: Replace `cargo run -r --` with `fasta_filter` if you are running from the executable.
 
 
 ## Example Output
