@@ -2,14 +2,22 @@
 
 ## Overview
 
-The FASTA Filter CLI Tools crate is a command-line utility designed for filtering FASTA format files based on user-defined search terms. FASTA files are commonly used in bioinformatics to represent nucleotide or protein sequences. This crate allows users to specify one or more search terms, and it will filter the input FASTA file to retain only those sequences whose headers (lines starting with ">") contain at least one of the specified search terms by regex expression. The filtered sequences can be saved to a separate output file.
+The FASTA Filter CLI Tools crate is a command-line utility designed for filtering FASTA format files based on user-defined search terms. FASTA files are commonly used in bioinformatics to represent nucleotide or protein sequences. This crate allows users to specify one or more search terms, and it will filter the input FASTA file to retain only those sequences whose headers (lines starting with ">") contain at least one of the specified search terms via regex expression. The filtered sequences can be saved to a separate output file.
 
 ## Usage
 
-To use this crate, you should have [Rust](https://www.rust-lang.org/tools/install) installed on your system. You can run the crate from the command line as follows:
+## Usage
+
+To utilize this crate, ensure that you have [Rust](https://www.rust-lang.org/tools/install) installed on your system. You can execute the crate via the command line using the following syntax:
 
 ```bash
 cargo run -r -- <FASTA file> <Search term> [--output <output file>]
+```
+
+Alternatively, you can install this crate as a binary executable. After installation, you can run your commands using the `fasta_filter` command:
+
+```bash
+cargo install --git https://github.com/lycantrope/fasta_filter
 ```
 
 ### Arguments
@@ -41,6 +49,9 @@ Here are some example usages of the crate:
     ```bash
     cat input.fasta.gz | gzip -d | cargo run -r -- - unc --output output.fasta
     ```
+
+**Note**: Replace `cargo run -r --` with `fasta_filter` if you are running from an installed executable.
+
 
 ## Example Output
 
@@ -78,6 +89,10 @@ This crate was authored by Chung-Kuan Chen (b97b01045@gmail.com).
 
 For those people who are not familiar with Rust or Cargo, `pyscripts/fasta_parser.py` provides the same CLI interface and can be run with Python3 (>=3.6).
 
+
+```bash
+python3 pyscripts/fasta_parser.py <FASTA file> <Search term> [--output <output file>]
+```
 
 
 **Note**: Replace `<FASTA file>`, `<Search term>`, and `<output file>` with the actual file paths and search terms you want to use.
