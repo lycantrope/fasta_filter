@@ -22,12 +22,12 @@ struct Cli {
     terms: Vec<Arc<str>>,
 
     /// Save filtered results to FASTA file, if provided
-    #[arg(short, long,)]
+    #[arg(short, long)]
     output: Option<PathBuf>,
 
     /// characters width per line.
     #[arg(short, long, default_value_t = 80)]
-    wrap_width:usize,
+    wrap_width: usize,
 }
 
 fn main() -> anyhow::Result<()> {
@@ -35,29 +35,28 @@ fn main() -> anyhow::Result<()> {
 
     let mut reader = Reader::new(cli.input.as_bytes());
     let mut stdout = io::stdout();
-    
+
     let regex_matcher: Arc<[Regex]> = cli
-    .terms
-    .into_iter()
-    .filter_map(|re| {
+        .terms
+        .into_iter()
+        .filter_map(|re| {
             let re = re.trim();
-            if re.is_empty(){
+            if re.is_empty() {
                 None
-            }else{
+            } else {
                 Regex::new(re).ok()
             }
-        }
-    )
-    .collect();
+        })
+        .collect();
 
-    if regex_matcher.is_empty(){
+    if regex_matcher.is_empty() {
         let mut cmd = Cli::command();
         cmd.error(
             ErrorKind::MissingRequiredArgument,
             "No terminolgy was provided.",
         )
         .exit();
-    }    
+    }
 
     let text_wrap_width = cli.wrap_width;
     let mut outfile: Option<File> = cli.output.as_ref().and_then(|f| File::create(f).ok());
