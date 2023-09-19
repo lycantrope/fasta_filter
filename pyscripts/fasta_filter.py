@@ -10,6 +10,8 @@ import textwrap
 def parse_fasta(
     file: typing.TextIO,
     predicate: typing.Callable[[str], bool],
+    *,
+    wrap_width: int = 80,
 ) -> typing.Generator[typing.Tuple[str, str], None, None]:
     header = ""
     seq = io.StringIO("")
@@ -18,7 +20,7 @@ def parse_fasta(
         if line.startswith(">"):
             if keep:
                 # yield the previous entry
-                yield header, seq.getvalue()
+                yield header, "\n".join(textwrap.wrap(seq.getvalue(), width=wrap_width))
             header = line.strip()
             # check whether it is true by filtered predicate
             keep = predicate(header)
@@ -30,7 +32,7 @@ def parse_fasta(
             # otherwise drop the line
             continue
     if keep:
-        yield header, seq.getvalue()
+        yield header, "\n".join(textwrap.wrap(seq.getvalue(), width=wrap_width))
 
 
 def main() -> None:
@@ -57,8 +59,17 @@ def main() -> None:
         help="Save filtered FASTA to text file",
     )
 
-    args = parser.parse_args()
+    parser.add_argument(
+        "--wrap-width",
+        "-w",
+        metavar="",
+        type=int,
+        default=80,
+        help="Save filtered FASTA to text file",
+    )
 
+    args = parser.parse_args()
+    print(args)
     # compile the search terms to reduce the overhead
     # the empty term will be filtered
     regex_all = [re.compile(term) for term in args.terms if term.strip()]
@@ -69,12 +80,12 @@ def main() -> None:
     # predicate function using regex compile
     pred = lambda header: any(regex.search(header) for regex in regex_all)
 
-    for header, seq in parse_fasta(args.inputfile, pred):
+    for header, seq in parse_fasta(args.inputfile, pred, wrap_width=args.wrap_width):
         print(header)
         print(seq)
         if args.output is not None:
             print(header, file=args.output)
-            print("\n".join(textwrap.wrap(seq, width=80)), file=args.output)
+            print(seq, file=args.output)
 
 
 if __name__ == "__main__":
