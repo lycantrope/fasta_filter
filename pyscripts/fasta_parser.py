@@ -34,7 +34,7 @@ def parse_fasta(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser("fasta_filter_simple")
+    parser = argparse.ArgumentParser("fasta_filter")
     parser.add_argument(
         "inputfile",
         metavar="<FASTA file>",
@@ -60,7 +60,11 @@ def main() -> None:
     args = parser.parse_args()
 
     # compile the search terms to reduce the overhead
-    regex_all = [re.compile(term) for term in args.terms]
+    # the empty term will be filtered
+    regex_all = [re.compile(term) for term in args.terms if term.strip()]
+
+    if not regex_all:
+        parser.error("No terminolgy was provided.")
 
     # predicate function using regex compile
     pred = lambda header: any(regex.search(header) for regex in regex_all)

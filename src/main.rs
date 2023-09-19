@@ -34,10 +34,11 @@ fn main() -> anyhow::Result<()> {
     .terms
     .into_iter()
     .filter_map(|re| {
+            let re = re.trim();
             if re.is_empty(){
                 None
             }else{
-                Regex::new(&re).ok()
+                Regex::new(re).ok()
             }
         }
     )
