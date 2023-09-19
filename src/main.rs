@@ -10,18 +10,24 @@ use std::sync::Arc;
 
 #[derive(Parser, Debug)]
 #[command(name = "fasta_filter")]
+#[command(version = "0.1.0")]
 #[command(author = "Chung-Kuan Chen <b97b01045@gmail.com>")]
-#[command(version = "1.0")]
-#[command(about = "A simple to use, efficient of FASTA filter Command Line Tool", long_about = None)]
+#[command(about = "A simple to use, efficient FASTA filter CLI Tool", long_about = None)]
 struct Cli {
+    /// FASTA input (can PIPE from STDIN)
     #[arg(value_name = "FASTA file")]
     input: FileOrStdin,
-
+    /// terminologies to filter (support regex expression)
     #[arg(value_name = "Search term")]
     terms: Vec<Arc<str>>,
 
-    #[arg(short, long)]
+    /// Save filtered results to FASTA file, if provided
+    #[arg(short, long,)]
     output: Option<PathBuf>,
+
+    /// characters width per line.
+    #[arg(short, long, default_value_t = 80)]
+    wrap_width:usize,
 }
 
 fn main() -> anyhow::Result<()> {
@@ -53,6 +59,7 @@ fn main() -> anyhow::Result<()> {
         .exit();
     }    
 
+    let text_wrap_width = cli.wrap_width;
     let mut outfile: Option<File> = cli.output.as_ref().and_then(|f| File::create(f).ok());
 
     while let Some(record) = reader.next().and_then(Result::ok) {
@@ -60,9 +67,9 @@ fn main() -> anyhow::Result<()> {
             .id()
             .is_ok_and(|id| regex_matcher.iter().any(|re| re.is_match(id)))
         {
-            record.write_wrap(&mut stdout, 80)?;
+            record.write_wrap(&mut stdout, text_wrap_width)?;
             if let Some(out) = outfile.as_mut() {
-                record.write_wrap(out, 80)?;
+                record.write_wrap(out, text_wrap_width)?;
             }
             continue;
         }
@@ -70,9 +77,9 @@ fn main() -> anyhow::Result<()> {
         if record.desc().is_some_and(|desc| {
             desc.is_ok_and(|desc| regex_matcher.iter().any(|re| re.is_match(desc)))
         }) {
-            record.write_wrap(&mut stdout, 80)?;
+            record.write_wrap(&mut stdout, text_wrap_width)?;
             if let Some(out) = outfile.as_mut() {
-                record.write_wrap(out, 80)?;
+                record.write_wrap(out, text_wrap_width)?;
             }
         }
     }
