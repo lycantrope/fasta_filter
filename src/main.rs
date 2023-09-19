@@ -47,7 +47,7 @@ fn main() -> anyhow::Result<()> {
     if regex_matcher.is_empty(){
         let mut cmd = Cli::command();
         cmd.error(
-            ErrorKind::ArgumentConflict,
+            ErrorKind::MissingRequiredArgument,
             "No terminolgy was provided.",
         )
         .exit();
