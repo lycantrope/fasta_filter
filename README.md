@@ -87,7 +87,7 @@ This crate was authored by Chung-Kuan Chen (b97b01045@gmail.com).
 
 ## [Optional] Python scripts
 
-For those people who are not familiar with Rust or Cargo, `pyscripts/fasta_parser.py` provides the same CLI interface and can be run with Python3 (>=3.6).
+For those people who are not familiar with Rust or Cargo, `pyscripts/fasta_filter.py` provides the same CLI interface and can be run with Python3 (>=3.6).
 
 
 ```bash
