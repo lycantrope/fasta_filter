@@ -32,22 +32,22 @@ cargo install --git https://github.com/lycantrope/fasta_filter
 
 Here are some example usages of the crate:
 
-1. Filter a FASTA file named `input.fa` to retain sequences with headers containing the term "unc" and save the filtered sequences to `output.fa`:
+1. Filter a FASTA file named `input.fa` to retain sequences with headers containing the terms including "unc" or "dpy", and save the filtered sequences to `output.fa`:
 
     ```bash
-    cargo run -r -- input.fa unc --output output.fa
+    cargo run -r -- input.fa unc dpy --output output.fa
     ```
 
 2. Filter a FASTA file from STDIN (piped input):
 
     ```bash
-    cat input.fa | cargo run -r -- - unc --output output.fa
+    cat input.fa | cargo run -r -- - unc dpy --output output.fa
     ```
 
 3. Filter a FASTA GZIP file from STDIN (piped input) :
 
     ```bash
-    cat input.fa.gz | gzip -d | cargo run -r -- - unc --output output.fa
+    cat input.fa.gz | gzip -d | cargo run -r -- - unc dpy --output output.fa
     ```
 
 **Note**: Replace `cargo run -r --` with `fasta_filter` if you are running from an installed executable.
