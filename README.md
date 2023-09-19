@@ -91,7 +91,7 @@ For those people who are not familiar with Rust or Cargo, `pyscripts/fasta_filte
 
 
 ```bash
-python3 pyscripts/fasta_parser.py <FASTA file> [Search term]... [--output <output file>]
+python3 pyscripts/fasta_filter.py <FASTA file> [Search term]... [--output <output file>]
 ```
 
 
