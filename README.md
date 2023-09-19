@@ -1,4 +1,4 @@
-# FASTA Filter CLI Tools Documentation
+# [FASTA Filter CLI Tools Documentation](https://github.com/lycantrope/fasta_filter)
 
 ## Overview
 
@@ -6,7 +6,7 @@ The FASTA Filter CLI Tools crate is a command-line utility designed for filterin
 
 ## Usage
 
-To use this crate, you should have Rust installed on your system. You can run the crate from the command line as follows:
+To use this crate, you should have [Rust](https://www.rust-lang.org/tools/install) installed on your system. You can run the crate from the command line as follows:
 
 ```bash
 cargo run -r -- <FASTA file> <Search term> [--output <output file>]
@@ -73,5 +73,11 @@ This crate is distributed under the MIT License.
 This crate was authored by Chung-Kuan Chen (b97b01045@gmail.com).
 
 ---
+
+## [Optional] Python scripts
+
+For those people who are not familiar with Rust or Cargo, `pyscripts/fasta_parser.py` provides the same CLI interface and can be run with Python3 (>=3.6).
+
+
 
 **Note**: Replace `<FASTA file>`, `<Search term>`, and `<output file>` with the actual file paths and search terms you want to use.
