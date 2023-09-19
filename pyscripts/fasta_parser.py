@@ -67,11 +67,10 @@ def main() -> None:
 
     for header, seq in parse_fasta(args.inputfile, pred):
         print(header)
-        seq = "\n".join(textwrap.wrap(seq, width=80))
         print(seq)
         if args.output is not None:
             print(header, file=args.output)
-            print(seq, file=args.output)
+            print("\n".join(textwrap.wrap(seq, width=80)), file=args.output)
 
 
 if __name__ == "__main__":
