@@ -69,10 +69,10 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    print(args)
+
     # compile the search terms to reduce the overhead
     # the empty term will be filtered
-    regex_all = [re.compile(term) for term in args.terms if term.strip()]
+    regex_all = tuple(re.compile(term) for term in args.terms if term.strip())
 
     if not regex_all:
         parser.error("No terminolgy was provided.")
@@ -81,11 +81,10 @@ def main() -> None:
     pred = lambda header: any(regex.search(header) for regex in regex_all)
 
     for header, seq in parse_fasta(args.inputfile, pred, wrap_width=args.wrap_width):
-        print(header)
-        print(seq)
+        print(header, seq, sep="\n")
+
         if args.output is not None:
-            print(header, file=args.output)
-            print(seq, file=args.output)
+            print(header, seq, sep="\n", file=args.output)
 
 
 if __name__ == "__main__":
