@@ -11,3 +11,7 @@ clap = { version = "4.4.4", features = ["derive"] }
 clap-stdin = "0.2.1"
 regex = "1.9.5"
 seq_io = "0.3.2"
+
+
+[profile.release]
+lto = true
